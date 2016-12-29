@@ -18,3 +18,13 @@ lazy val server = (project in file("server"))
 lazy val coreDomain = (project in file("coreDomain"))
   .settings(commonSettings)
 
+val helloWorldOutputDir        = file("scalaJSDist")
+
+lazy val front = (project in file("front"))
+  .settings(commonSettings)
+  .dependsOn(coreDomain)
+  .settings(
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    crossTarget in(Compile, fullOptJS) := helloWorldOutputDir,
+    crossTarget in(Compile, fastOptJS) := helloWorldOutputDir
+  ).enablePlugins(ScalaJSPlugin)
